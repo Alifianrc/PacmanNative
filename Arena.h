@@ -1,5 +1,5 @@
 #pragma once
-// 4210191011   Muhammad Alfian Rizki C.
+// 4210191011   Muhammad Alifian Rizki C.
 
 #include <iostream>
 
@@ -19,5 +19,5 @@ public:
 	std::string GetArenaData(int i, int j);
 	void SetArenaData(int i, int j, std::string shape);
 
-	void DrawArena();
+	void DrawArena(int score, bool fruitIsActive);
 };

@@ -140,14 +140,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Arena.cpp" />
+    <ClCompile Include="FactoryItem.cpp" />
+    <ClCompile Include="Food.cpp" />
+    <ClCompile Include="Fruit.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Inky.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Pacman.cpp" />
+    <ClCompile Include="Pinky.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
+    <ClInclude Include="FactoryItem.h" />
+    <ClInclude Include="Food.h" />
+    <ClInclude Include="Fruit.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GhostFactory.h" />
+    <ClInclude Include="Inky.h" />
+    <ClInclude Include="InterfaceItem.h" />
     <ClInclude Include="Pacman.h" />
+    <ClInclude Include="Pinky.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

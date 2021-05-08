@@ -1,5 +1,5 @@
 #pragma once
-// 4210191011   Muhammad Alfian Rizki C.
+// 4210191011   Muhammad Alifian Rizki C.
 
 #include <string>
 #include "Arena.h"
@@ -22,7 +22,8 @@ public:
 	Pacman(Arena* source);
 	Pacman(Arena* source,int i, int j);
 
-	int GetPosition(int coord);
+	int GetPositionI();
+	int GetPositionJ();
 	void SetPosition(int i, int j);
 
 	void ChangeDirection(int dir);

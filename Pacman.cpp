@@ -29,8 +29,11 @@ Pacman::Pacman(Arena* source, int i, int j) {
 	MOVE_RIGHT = true;
 }
 
-int Pacman::GetPosition(int coord) {
-	return position[coord];
+int Pacman::GetPositionI() {
+	return position[0];
+}
+int Pacman::GetPositionJ() {
+	return position[1];
 }
 void Pacman::SetPosition(int i, int j) {
 	position[0] = i;

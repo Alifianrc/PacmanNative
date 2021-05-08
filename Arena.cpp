@@ -1,10 +1,10 @@
-// 4210191011   Muhammad Alfian Rizki C.
+// 4210191011   Muhammad Alifian Rizki C.
 
 #include "Arena.h"
 
 Arena::Arena() {
-	ArenaSizeI = 20;
-	ArenaSizeJ = 80;
+	ArenaSizeI = 10;
+	ArenaSizeJ = 40;
 
 	for (int i = 0; i < ArenaSizeI; i++) {
 		for (int j = 0; j < ArenaSizeJ; j++) {
@@ -54,7 +54,7 @@ void Arena::SetArenaData(int i, int j, std::string shape) {
 	ArenaData[i][j] = shape;
 }
 
-void Arena::DrawArena() {
+void Arena::DrawArena(int score, bool fruitIsActive) {
 	system("cls");
 
 	std::cout << "\n";
@@ -69,6 +69,14 @@ void Arena::DrawArena() {
 		for (int j = 0; j < ArenaSizeJ; j++) {
 			std::cout << ArenaData[i][j];
 		}
+
+		if (i == (ArenaSizeI / 2) - 1) {
+			std::cout << "   Score : " << score;
+		}
+		if (fruitIsActive && i == ArenaSizeI/2) {
+			std::cout << "   Fruit Effect Is Active";
+		}
+
 		std::cout << "\n";
 	}
 }
