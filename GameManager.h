@@ -9,6 +9,9 @@
 #include "Player.h"
 #include "FactoryItem.h"
 #include "InterfaceItem.h"
+#include "GhostsFactory.h"
+#include "InterfaceGhosts.h"
+#include "GameData.h"
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -21,6 +24,8 @@ private:
 	Pacman* pacman;
 	Player* player;
 	std::list <InterfaceItem*> itemList;
+	std::list <InterfaceGhosts*> ghostList;
+	GameData* data;
 
 	int GameUpdateSpeed;
 
@@ -30,8 +35,12 @@ private:
 
 	int menuValue;
 
+	int foodCount;
+	int fruitMax;
 	bool FruitIsActive;
 	int fruitEffectCount;
+
+	bool GameIsOver;
 
 	char KeyboardInput();
 
@@ -41,6 +50,7 @@ private:
 	void NewGame();
 	void InputPlayerName();
 	void SetUpArena();
+	void GenerateGhosts();
 	void GenerateItem();
 
 	void GameInput();
@@ -52,6 +62,8 @@ private:
 	void FruitEffect();
 
 	void ArenaUpdate();
+
+	void GameOver();
 
 public:
 	GameManager();

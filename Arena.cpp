@@ -5,38 +5,10 @@
 Arena::Arena() {
 	ArenaSizeI = 10;
 	ArenaSizeJ = 40;
-
-	for (int i = 0; i < ArenaSizeI; i++) {
-		for (int j = 0; j < ArenaSizeJ; j++) {
-			if (i == 0 || i == (ArenaSizeI - 1)) {
-				ArenaData[i][j] = "#";
-			}
-			else if (j == 0 || j == (ArenaSizeJ - 1)) {
-				ArenaData[i][j] = "#";
-			}
-			else {
-				ArenaData[i][j] = " ";
-			}
-		}
-	}
 }
 Arena::Arena(int sizeI, int sizeJ) {
 	ArenaSizeI = sizeI;
 	ArenaSizeJ = sizeJ;
-
-	for (int i = 0; i < ArenaSizeI; i++) {
-		for (int j = 0; j < ArenaSizeJ; j++) {
-			if (i == 0 || i == (ArenaSizeI - 1)) {
-				ArenaData[i][j] = "#";
-			}
-			else if (j == 0 || j == (ArenaSizeJ - 1)) {
-				ArenaData[i][j] = "#";
-			}
-			else {
-				ArenaData[i][j] = " ";
-			}
-		}
-	}
 }
 
 
@@ -54,7 +26,7 @@ void Arena::SetArenaData(int i, int j, std::string shape) {
 	ArenaData[i][j] = shape;
 }
 
-void Arena::DrawArena(int score, bool fruitIsActive) {
+void Arena::DrawArena(int score, bool fruitIsActive, bool gameIsOver) {
 	system("cls");
 
 	std::cout << "\n";
@@ -73,10 +45,21 @@ void Arena::DrawArena(int score, bool fruitIsActive) {
 		if (i == (ArenaSizeI / 2) - 1) {
 			std::cout << "   Score : " << score;
 		}
-		if (fruitIsActive && i == ArenaSizeI/2) {
+		if (gameIsOver && i == ArenaSizeI/2) {
+			std::cout << "   GAME OVER";
+		}
+		else if (fruitIsActive && i == ArenaSizeI / 2) {
 			std::cout << "   Fruit Effect Is Active";
 		}
 
 		std::cout << "\n";
+	}
+
+	if (gameIsOver) {
+		std::cout << "\n\n";
+		for (int i = 0; i < (ArenaSizeJ / 2) - 2; i++) {
+			std::cout << " ";
+		}
+		std::cout << "PRESS ENTER TO CONTINUE";
 	}
 }

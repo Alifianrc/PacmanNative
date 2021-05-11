@@ -1,16 +1,19 @@
 #pragma once
 #ifndef pinky
-#define pinky
-#include "GhostFactory.h"
+
+#include "InterfaceGhosts.h"
+#include "Arena.h"
+
 //aas 4210191028
 
-class Pinky {
+class Pinky : public InterfaceGhosts {
 private:
+	Arena* arena;
 	int positionI;
 	int positionJ;
 
 	int speed;
-
+	bool MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT;
 	std::string shape;
 
 public:
@@ -21,7 +24,7 @@ public:
 	int GetPositionJ();
 	void SetPosition(int i, int j);
 
-	void Move();
+	void Move(int i, int j);
 
 	std::string GetShape();
 };

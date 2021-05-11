@@ -6,13 +6,13 @@ Fruit::Fruit() {
 	position[0] = 3;
 	position[1] = 3;
 
-	shape = "^";
+	shape = "*";
 }
 Fruit::Fruit(int i, int j) {
 	position[0] = i;
 	position[1] = j;
 
-	shape = "^";
+	shape = "*";
 }
 
 int Fruit::GetPositionI() {

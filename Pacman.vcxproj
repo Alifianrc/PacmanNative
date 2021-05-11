@@ -143,7 +143,9 @@
     <ClCompile Include="FactoryItem.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Fruit.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GhostsFactory.cpp" />
     <ClCompile Include="Inky.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Pacman.cpp" />
@@ -155,9 +157,11 @@
     <ClInclude Include="FactoryItem.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="Fruit.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GhostFactory.h" />
+    <ClInclude Include="GhostsFactory.h" />
     <ClInclude Include="Inky.h" />
+    <ClInclude Include="InterfaceGhosts.h" />
     <ClInclude Include="InterfaceItem.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="Pinky.h" />

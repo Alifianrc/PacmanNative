@@ -6,8 +6,9 @@ GameManager::GameManager() {
 	arena = new Arena();
 	pacman = new Pacman(arena);
 	player = new Player();
+	data = new GameData();
 
-	GameUpdateSpeed = 90;
+	GameUpdateSpeed = 300;
 
 	MainLoop = true;
 	MenuLoop = true;
@@ -15,8 +16,12 @@ GameManager::GameManager() {
 
 	menuValue = 0;
 
+	foodCount = 0;
+	fruitMax = 6;
 	FruitIsActive = false;
 	fruitEffectCount = 0;
+
+	GameIsOver = false;
 
 	DrawMenu(menuValue);
 }
@@ -100,6 +105,17 @@ void GameManager::DrawMenu(int value) {
 }
 
 void GameManager::NewGame() {
+	GameIsOver = false;
+
+	if (!itemList.empty()) {
+		itemList.clear();
+	}
+	if (!ghostList.empty()) {
+		ghostList.clear();
+	}
+
+	pacman->ChangeDirection(RIGHT);
+
 	InputPlayerName();
 
 	SetUpArena();
@@ -117,31 +133,58 @@ void GameManager::InputPlayerName() {
 	player->SetName(name);
 }
 void GameManager::SetUpArena() {
-	// Ghost
+	int count = 0;
+	for (int i = 0; i < arena->GetArenaSizeI(); i++) {
+		for (int j = 0; j < arena->GetArenaSizeJ(); j++) {
+			arena->SetArenaData(i, j, data->GetArenaData(count));
+			count++;
+		}
+	}
 
+	GenerateGhosts();
+
+	pacman->SetPosition(1, 1);
 	arena->SetArenaData(pacman->GetPositionI(), pacman->GetPositionJ(), pacman->GetShape());
 
 	GenerateItem();
 }
+void GameManager::GenerateGhosts() {
+	InterfaceGhosts* ghostTemp;
+
+	ghostTemp = GhostsFactory::CreateItem(PINKY, 6, 20);
+	ghostList.push_back(ghostTemp);
+	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
+	ghostTemp = GhostsFactory::CreateItem(PINKY, 5, 20);
+	ghostList.push_back(ghostTemp);
+	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
+
+	ghostTemp = GhostsFactory::CreateItem(INKY, 6, 21);
+	ghostList.push_back(ghostTemp);
+	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
+	ghostTemp = GhostsFactory::CreateItem(INKY, 5, 21);
+	ghostList.push_back(ghostTemp);
+	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
+}
 void GameManager::GenerateItem() {
 	srand((unsigned)time(NULL));
+	int fruitCount = 0;
 	for (int i = 0; i < arena->GetArenaSizeI(); i++) {
 		for (int j = 0; j < arena->GetArenaSizeJ(); j++) {
 			if (arena->GetArenaData(i, j) == " ") {
 				InterfaceItem *itemTemp;
 
 				int temp = (rand() % 100) + 1;
-				if (temp <= 2) {
+				if (temp <= 7 && fruitCount <= fruitMax) {
 					itemTemp = FactoryItem::CreateItem(FRUIT, i, j);
-					itemList.push_back(itemTemp);
-					arena->SetArenaData(i, j, itemTemp->GetShape());
+					fruitCount++;
 				}
-				else if (temp <= 15){
+				else {
 					itemTemp = FactoryItem::CreateItem(FOOD, i, j);
-					itemList.push_back(itemTemp);
-					arena->SetArenaData(i, j, itemTemp->GetShape());
+					foodCount++;
 				}
-				// wall
+				
+				itemList.push_back(itemTemp);
+				arena->SetArenaData(i, j, itemTemp->GetShape());
 			}
 		}
 	}
@@ -190,10 +233,10 @@ void GameManager::GameUpdate() {
 
 	ArenaUpdate();
 
-	if (GameLoop) {
-		arena->DrawArena(player->GetScore(), FruitIsActive);
+	if (GameLoop || GameIsOver) {
+		arena->DrawArena(player->GetScore(), FruitIsActive, GameIsOver);
 	}
-
+		
 	Sleep(GameUpdateSpeed);
 }
 void GameManager::GamePause() {
@@ -207,24 +250,56 @@ void GameManager::GamePause() {
 }
 
 void GameManager::CheckCollision() {
-	for (std::list<InterfaceItem*>::iterator iter = itemList.begin(); iter != itemList.end(); iter++) {
-		InterfaceItem* temp = *iter;
-		if (temp->GetPositionI() == pacman->GetPositionI() && temp->GetPositionJ() == pacman->GetPositionJ()) {
-			if (temp->GetName() == "Food") {
-				player->SetScore(player->GetScore() + 10);
-			}
-			else if (temp->GetName() == "Fruit") {
-				FruitIsActive = true;
-				fruitEffectCount = 0;
-			}
+	if (!itemList.empty()) {
+		for (std::list<InterfaceItem*>::iterator iter = itemList.begin(); iter != itemList.end(); iter++) {
+			InterfaceItem* temp = *iter;
+			if (temp->GetPositionI() == pacman->GetPositionI() && temp->GetPositionJ() == pacman->GetPositionJ()) {
+				if (temp->GetName() == "Food") {
+					player->SetScore(player->GetScore() + 10);
+					foodCount--;
+				}
+				else if (temp->GetName() == "Fruit") {
+					FruitIsActive = true;
+					fruitEffectCount = 0;
+				}
 
-			itemList.erase(iter);
-			free(temp);
-			break;
+				itemList.erase(iter);
+				free(temp);
+
+				if (foodCount <= 0) {
+					GameOver();
+				}
+				break;
+			}
 		}
 	}
+	
+	if (!ghostList.empty()) {
+		for (std::list<InterfaceGhosts*>::iterator iter = ghostList.begin(); iter != ghostList.end(); iter++) {
+			InterfaceGhosts* temp = *iter;
+			if (temp->GetPositionI() == pacman->GetPositionI() && temp->GetPositionJ() == pacman->GetPositionJ()) {
+				if (FruitIsActive) {
+					if (arena->GetArenaData(6, 20) == " ") {
+						temp->SetPosition(6, 20);
+					}
+					else if (arena->GetArenaData(6, 21) == " ") {
+						temp->SetPosition(6, 21);
+					}
+					else if (arena->GetArenaData(5, 20) == " ") {
+						temp->SetPosition(5, 20);
+					}
+					else if (arena->GetArenaData(5, 21) == " ") {
+						temp->SetPosition(5, 21);
+					}
 
-	// Ghosts
+					player->SetScore(player->GetScore() + 50);
+				}
+				else {
+					GameOver();
+				}
+			}
+		}
+	}
 }
 
 void GameManager::FruitEffect() {
@@ -244,11 +319,13 @@ void GameManager::ArenaUpdate() {
 				arena->SetArenaData(i, j, " ");
 			}
 
-			for (std::list<InterfaceItem*>::iterator iter = itemList.begin(); iter != itemList.end(); iter++) {
-				InterfaceItem* temp = *iter;
-				if (temp->GetPositionI() == i && temp->GetPositionJ() == j) {
-					arena->SetArenaData(i, j, temp->GetShape());
-					break;
+			if (!itemList.empty()) {
+				for (std::list<InterfaceItem*>::iterator iter = itemList.begin(); iter != itemList.end(); iter++) {
+					InterfaceItem* temp = *iter;
+					if (temp->GetPositionI() == i && temp->GetPositionJ() == j) {
+						arena->SetArenaData(i, j, temp->GetShape());
+						break;
+					}
 				}
 			}
 
@@ -256,9 +333,27 @@ void GameManager::ArenaUpdate() {
 				arena->SetArenaData(i, j, pacman->GetShape());
 			}
 
-			// Ghosts			
+			if (!ghostList.empty()) {
+				for (std::list<InterfaceGhosts*>::iterator iter = ghostList.begin(); iter != ghostList.end(); iter++) {
+					InterfaceGhosts* temp = *iter;
+					if (temp->GetPositionI() == i && temp->GetPositionJ() == j) {
+						if (arena->GetArenaData(i, j) == "@" && FruitIsActive) {
+							break;
+						}
+						else {
+							arena->SetArenaData(i, j, temp->GetShape());
+						}
+						break;
+					}
+				}
+			}
 		}
 	}
+}
+
+void GameManager::GameOver() {
+	GameIsOver = true;
+	GameLoop = false;
 }
 
 void GameManager::Play() {
@@ -268,6 +363,13 @@ void GameManager::Play() {
 		}
 		else if (GameLoop) {
 			GameUpdate();
+		}
+		else if (GameIsOver) {
+			char input = KeyboardInput();
+			if (input == '\r') {
+				MenuLoop = true;
+				DrawMenu(menuValue);
+			}
 		}
 	}
 }

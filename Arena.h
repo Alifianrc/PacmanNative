@@ -19,5 +19,5 @@ public:
 	std::string GetArenaData(int i, int j);
 	void SetArenaData(int i, int j, std::string shape);
 
-	void DrawArena(int score, bool fruitIsActive);
+	void DrawArena(int score, bool fruitIsActive, bool gameIsOver);
 };
