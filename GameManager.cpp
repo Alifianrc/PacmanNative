@@ -151,17 +151,17 @@ void GameManager::SetUpArena() {
 void GameManager::GenerateGhosts() {
 	InterfaceGhosts* ghostTemp;
 
-	ghostTemp = GhostsFactory::CreateItem(PINKY, 6, 20, 4);
+	ghostTemp = GhostsFactory::CreateItem(arena, PINKY, 6, 20, 4);
 	ghostList.push_back(ghostTemp);
 	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
-	ghostTemp = GhostsFactory::CreateItem(PINKY, 5, 20, 3);
+	ghostTemp = GhostsFactory::CreateItem(arena, PINKY, 5, 20, 3);
 	ghostList.push_back(ghostTemp);
 	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
 
-	ghostTemp = GhostsFactory::CreateItem(INKY, 6, 21, 4);
+	ghostTemp = GhostsFactory::CreateItem(arena, INKY, 6, 21, 4);
 	ghostList.push_back(ghostTemp);
 	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
-	ghostTemp = GhostsFactory::CreateItem(INKY, 5, 21, 3);
+	ghostTemp = GhostsFactory::CreateItem(arena, INKY, 5, 21, 3);
 	ghostList.push_back(ghostTemp);
 	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
 }

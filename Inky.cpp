@@ -7,7 +7,9 @@ Inky::Inky() {
 
 	shape = "Q";
 }
-Inky::Inky(int i, int j, int move) {
+Inky::Inky(Arena* arena, int i, int j, int move) {
+	this->arena = arena;
+
 	positionI = i;
 	positionJ = j;
 

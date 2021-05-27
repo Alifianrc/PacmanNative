@@ -2,16 +2,16 @@
 
 #include "GhostsFactory.h"
 
-InterfaceGhosts* GhostsFactory::CreateItem(int item, int i, int j, int move) {
+InterfaceGhosts* GhostsFactory::CreateItem(Arena* arena, int item, int i, int j, int move) {
 	InterfaceGhosts* product;
 
 	switch (item)
 	{
 	case PINKY:
-		product = new Pinky(i, j, move);
+		product = new Pinky(arena, i, j, move);
 		break;
 	case INKY:
-		product = new Inky(i, j, move);
+		product = new Inky(arena, i, j, move);
 		break;
 	default:
 		return NULL;

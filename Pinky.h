@@ -18,7 +18,7 @@ private:
 
 public:
 	Pinky();
-	Pinky(int i, int j, int move);
+	Pinky(Arena* arena, int i, int j, int move);
 
 	int GetPositionI();
 	int GetPositionJ();

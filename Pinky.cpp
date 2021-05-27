@@ -7,7 +7,9 @@ Pinky::Pinky() {
 
 	shape = "O";
 }
-Pinky::Pinky(int i, int j, int move) {
+Pinky::Pinky(Arena* arena, int i, int j, int move) {
+	this->arena = arena;
+
 	positionI = i;
 	positionJ = j;
 
