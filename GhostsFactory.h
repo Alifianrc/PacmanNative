@@ -12,6 +12,6 @@
 class GhostsFactory {
 
 public:
-    static InterfaceGhosts* CreateItem(int item, int i, int j);
+    static InterfaceGhosts* CreateItem(int item, int i, int j, int move);
 };
 #endif

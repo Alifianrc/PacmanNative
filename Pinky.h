@@ -18,7 +18,7 @@ private:
 
 public:
 	Pinky();
-	Pinky(int i, int j);
+	Pinky(int i, int j, int move);
 
 	int GetPositionI();
 	int GetPositionJ();

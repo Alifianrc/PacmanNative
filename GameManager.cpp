@@ -151,17 +151,17 @@ void GameManager::SetUpArena() {
 void GameManager::GenerateGhosts() {
 	InterfaceGhosts* ghostTemp;
 
-	ghostTemp = GhostsFactory::CreateItem(PINKY, 6, 20);
+	ghostTemp = GhostsFactory::CreateItem(PINKY, 6, 20, 4);
 	ghostList.push_back(ghostTemp);
 	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
-	ghostTemp = GhostsFactory::CreateItem(PINKY, 5, 20);
+	ghostTemp = GhostsFactory::CreateItem(PINKY, 5, 20, 3);
 	ghostList.push_back(ghostTemp);
 	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
 
-	ghostTemp = GhostsFactory::CreateItem(INKY, 6, 21);
+	ghostTemp = GhostsFactory::CreateItem(INKY, 6, 21, 4);
 	ghostList.push_back(ghostTemp);
 	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
-	ghostTemp = GhostsFactory::CreateItem(INKY, 5, 21);
+	ghostTemp = GhostsFactory::CreateItem(INKY, 5, 21, 3);
 	ghostList.push_back(ghostTemp);
 	arena->SetArenaData(ghostTemp->GetPositionI(), ghostTemp->GetPositionJ(), ghostTemp->GetShape());
 }
@@ -224,7 +224,14 @@ void GameManager::GameInput() {
 void GameManager::GameUpdate() {
 	GameInput();
 	pacman->Move();
-	// ghosts->move();
+	
+	if (!ghostList.empty()) {
+		for (std::list<InterfaceGhosts*>::iterator iter = ghostList.begin(); iter != ghostList.end(); iter++) {
+			InterfaceGhosts* temp = *iter;
+			temp->Move(0, 0);
+		}
+	}
+	
 	CheckCollision();
 
 	if (FruitIsActive) {

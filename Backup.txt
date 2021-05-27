@@ -1,50 +1,4 @@
-#include "Pinky.h"
-//aas 4210191028
-
-Pinky::Pinky() {
-	positionI = 20;
-	positionJ = 8;
-
-	shape = "O";
-}
-Pinky::Pinky(int i, int j, int move) {
-	positionI = i;
-	positionJ = j;
-
-	shape = "O";
-
-	switch (move)
-	{
-	case 1:
-		MOVE_UP = true;
-		break;
-	case 2:
-		MOVE_DOWN = true;
-		break;
-	case 3:
-		MOVE_LEFT = true;
-		break;
-	case 4:
-		MOVE_RIGHT = true;
-		break;
-	default:
-		break;
-	}
-}
-
-int Pinky::GetPositionI() {
-	return positionI;
-}
-int Pinky::GetPositionJ() {
-	return positionJ;
-}
-void Pinky::SetPosition(int i, int j) {
-	positionI = i;
-	positionJ = j;
-}
-
-void Pinky::Move(int i, int j) {
-	if (MOVE_UP) {
+if (MOVE_UP) {
 		if (arena->GetArenaData(positionI - 1, positionJ) != "#") {
 			positionI--;
 		}
@@ -152,8 +106,3 @@ void Pinky::Move(int i, int j) {
 			}
 		}
 	}
-}
-
-std::string Pinky::GetShape() {
-	return shape;
-}

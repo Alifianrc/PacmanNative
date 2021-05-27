@@ -7,11 +7,29 @@ Inky::Inky() {
 
 	shape = "Q";
 }
-Inky::Inky(int i, int j) {
+Inky::Inky(int i, int j, int move) {
 	positionI = i;
 	positionJ = j;
 
 	shape = "Q";
+
+	switch (move)
+	{
+	case 1:
+		MOVE_UP = true;
+		break;
+	case 2:
+		MOVE_DOWN = true;
+		break;
+	case 3:
+		MOVE_LEFT = true;
+		break;
+	case 4:
+		MOVE_RIGHT = true;
+		break;
+	default:
+		break;
+	}
 }
 
 int Inky::GetPositionI() {
@@ -26,7 +44,6 @@ void Inky::SetPosition(int i, int j) {
 }
 
 void Inky::Move(int i, int j) {
-	// Movement AI
 	if (MOVE_UP) {
 		if (arena->GetArenaData(positionI - 1, positionJ) != "#") {
 			positionI--;
@@ -67,7 +84,6 @@ void Inky::Move(int i, int j) {
 			MOVE_DOWN = true;
 		}
 	}
-
 }
 
 std::string Inky::GetShape() {

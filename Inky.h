@@ -18,7 +18,7 @@ private :
 
 public :
 	Inky();
-	Inky(int i, int j);
+	Inky(int i, int j, int move);
 
 	int GetPositionI();
 	int GetPositionJ();
