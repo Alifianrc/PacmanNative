@@ -49,50 +49,68 @@ void Pinky::Move(int i, int j) {
 	if (MOVE_UP) {
 		if (arena->GetArenaData(positionI - 1, positionJ) != "#") {
 			positionI--;
+			if (RandomizeMovement() < 5) {
+				if (arena->GetArenaData(positionI, positionJ - 1) != "#") {
+					MOVE_LEFT = true;
+					positionJ--;
+					return;
+				}
+				else if (arena->GetArenaData(positionI, positionJ + 1) != "#") {
+					MOVE_RIGHT = true;
+					positionJ++;
+					return;
+				}
+			}
 		}
 		else
 		{
 			MOVE_UP = false;
-
-			if (arena->GetArenaData(positionI + 1, positionJ) != "#") {
-				MOVE_DOWN = true;
-				positionI++;
-				return;
-			}
-
-			else if (arena->GetArenaData(positionI, positionJ - 1) != "#") {
-				MOVE_LEFT = true;
-				positionJ--;
-				return;
-			}
-
-			else if (arena->GetArenaData(positionI, positionJ + 1) != "#") {
-				MOVE_RIGHT = true;
-				positionJ++;
-				return;
-			}
+				if (arena->GetArenaData(positionI, positionJ + 1) != "#") {
+					MOVE_RIGHT = true;
+					positionJ++;
+					return;
+				}
+				else if (arena->GetArenaData(positionI + 1, positionJ) != "#") {
+					MOVE_DOWN = true;
+					positionI++;
+					return;
+				}
+				else if (arena->GetArenaData(positionI, positionJ - 1) != "#") {
+					MOVE_LEFT = true;
+					positionJ--;
+					return;
+				}
 		}
 	}
 	else if (MOVE_DOWN) {
 		if (arena->GetArenaData(positionI + 1, positionJ) != "#") {
 			positionI++;
+			if (RandomizeMovement() < 5) {
+				if (arena->GetArenaData(positionI, positionJ + 1) != "#") {
+					MOVE_RIGHT = true;
+					positionJ++;
+					return;
+				}
+				else if (arena->GetArenaData(positionI, positionJ - 1) != "#") {
+					MOVE_LEFT = true;
+					positionJ--;
+					return;
+				}	
+			}
 		}
 		else
 		{
 			MOVE_DOWN = false;
-
-			if (arena->GetArenaData(positionI - 1, positionJ) != "#") {
-				MOVE_UP = true;
-				positionI--;
-				return;
-			}
-
-			else if (arena->GetArenaData(positionI, positionJ - 1) != "#") {
+			if (arena->GetArenaData(positionI, positionJ - 1) != "#") {
 				MOVE_LEFT = true;
 				positionJ--;
 				return;
 			}
-
+			else if (arena->GetArenaData(positionI - 1, positionJ) != "#") {
+				MOVE_UP = true;
+				positionI--;
+				return;
+			}
 			else if (arena->GetArenaData(positionI, positionJ + 1) != "#") {
 				MOVE_RIGHT = true;
 				positionJ++;
@@ -103,6 +121,19 @@ void Pinky::Move(int i, int j) {
 	else if (MOVE_LEFT) {
 		if (arena->GetArenaData(positionI, positionJ - 1) != "#") {
 			positionJ--;
+			if (RandomizeMovement() < 5) {
+				if (arena->GetArenaData(positionI - 1, positionJ) != "#") {
+					MOVE_UP = true;
+					positionI--;
+					return;
+				}
+
+				else if (arena->GetArenaData(positionI + 1, positionJ) != "#") {
+					MOVE_DOWN = true;
+					positionI++;
+					return;
+				}
+			}
 		}
 		else
 		{
@@ -130,6 +161,18 @@ void Pinky::Move(int i, int j) {
 	else if (MOVE_RIGHT) {
 		if (arena->GetArenaData(positionI, positionJ + 1) != "#") {
 			positionJ++;
+			if (RandomizeMovement() < 5) {
+				if (arena->GetArenaData(positionI + 1, positionJ) != "#") {
+					MOVE_DOWN = true;
+					positionI++;
+					return;
+				}
+				else if (arena->GetArenaData(positionI - 1, positionJ) != "#") {
+					MOVE_UP = true;
+					positionI--;
+					return;
+				}
+			}
 		}
 		else
 		{
@@ -155,6 +198,15 @@ void Pinky::Move(int i, int j) {
 		}
 	}
 }
+
+int Pinky::RandomizeMovement()
+{
+	randomize = 0;
+	srand(time(0));
+	randomize = rand() % 10;
+	return randomize;
+}
+
 
 std::string Pinky::GetShape() {
 	return shape;

@@ -49,45 +49,97 @@ void Inky::Move(int i, int j) {
 	if (MOVE_UP) {
 		if (arena->GetArenaData(positionI - 1, positionJ) != "#") {
 			positionI--;
+			if (RandomizeMovement() < 5) {
+				if (arena->GetArenaData(positionI, positionJ - 1) == "." || arena->GetArenaData(positionI, positionJ - 1) == "*")
+					MOVE_LEFT = true;
+				else if (arena->GetArenaData(positionI, positionJ + 1) == "." || arena->GetArenaData(positionI, positionJ + 1) == "*")
+					MOVE_RIGHT = true;
+			}
 		}
 		else
 		{
 			MOVE_UP = false;
-			MOVE_RIGHT = true;
+			if (arena->GetArenaData(positionI, positionJ - 1) == "." || arena->GetArenaData(positionI, positionJ - 1) == "*")
+				MOVE_LEFT = true;
+			else if (arena->GetArenaData(positionI, positionJ + 1) == "." || arena->GetArenaData(positionI, positionJ + 1) == "*")
+				MOVE_RIGHT = true;
+			else if (arena->GetArenaData(positionI + 1, positionJ) == "." || arena->GetArenaData(positionI + 1, positionJ) == "*")
+				MOVE_DOWN = true;
 		}
 	}
 	else if (MOVE_DOWN) {
 		if (arena->GetArenaData(positionI + 1, positionJ) != "#") {
-			positionI++;
+			positionI++; 
+			if (RandomizeMovement() < 5) {
+				if (arena->GetArenaData(positionI, positionJ - 1) == "." || arena->GetArenaData(positionI, positionJ - 1) == "*")
+					MOVE_LEFT = true;
+				else if (arena->GetArenaData(positionI, positionJ + 1) == "." || arena->GetArenaData(positionI, positionJ + 1) == "*")
+					MOVE_RIGHT = true;
+			}
 		}
 		else
 		{
 			MOVE_DOWN = false;
-			MOVE_LEFT = true;
+			if (arena->GetArenaData(positionI, positionJ - 1) == "." || arena->GetArenaData(positionI, positionJ - 1) == "*")
+				MOVE_LEFT = true;
+			else if (arena->GetArenaData(positionI, positionJ + 1) == "." || arena->GetArenaData(positionI, positionJ + 1) == "*")
+				MOVE_RIGHT = true;
+			else if (arena->GetArenaData(positionI - 1, positionJ) == "." || arena->GetArenaData(positionI - 1, positionJ) == "*")
+				MOVE_UP = true;
 		}
 	}
 	else if (MOVE_LEFT) {
 		if (arena->GetArenaData(positionI, positionJ - 1) != "#") {
 			positionJ--;
+			if (RandomizeMovement() < 5) {
+				if (arena->GetArenaData(positionI - 1, positionJ) == "." || arena->GetArenaData(positionI - 1, positionJ) == "*")
+					MOVE_UP = true;
+				else if (arena->GetArenaData(positionI + 1, positionJ) == "." || arena->GetArenaData(positionI + 1, positionJ) == "*")
+					MOVE_DOWN = true;
+
+			}
 		}
 		else
 		{
 			MOVE_LEFT = false;
-			MOVE_UP = true;
+			if (arena->GetArenaData(positionI - 1, positionJ) == "." || arena->GetArenaData(positionI - 1, positionJ) == "*")
+				MOVE_UP = true;
+			else if (arena->GetArenaData(positionI + 1, positionJ) == "." || arena->GetArenaData(positionI + 1, positionJ) == "*")
+				MOVE_DOWN = true;
+			else if (arena->GetArenaData(positionI, positionJ + 1) == "." || arena->GetArenaData(positionI, positionJ + 1) == "*")
+				MOVE_RIGHT = true;
 		}
 	}
 	else if (MOVE_RIGHT) {
 		if (arena->GetArenaData(positionI, positionJ + 1) != "#") {
-			positionJ++;
+			positionJ++; 
+			if (RandomizeMovement() < 5) {
+				if (arena->GetArenaData(positionI - 1, positionJ) == "." || arena->GetArenaData(positionI - 1, positionJ) == "*")
+					MOVE_UP = true;
+				else if (arena->GetArenaData(positionI + 1, positionJ) == "." || arena->GetArenaData(positionI + 1, positionJ) == "*")
+					MOVE_DOWN = true;
+			}
 		}
 		else
 		{
 			MOVE_RIGHT = false;
-			MOVE_DOWN = true;
+			if (arena->GetArenaData(positionI - 1, positionJ) == "." || arena->GetArenaData(positionI - 1, positionJ) == "*")
+				MOVE_UP = true;
+			else if (arena->GetArenaData(positionI + 1, positionJ) == "." || arena->GetArenaData(positionI + 1, positionJ) == "*")
+				MOVE_DOWN = true;
+			else if (arena->GetArenaData(positionI, positionJ - 1) == "." || arena->GetArenaData(positionI, positionJ - 1) == "*")
+				MOVE_LEFT = true;
 		}
 	}
 }
 
+int Inky::RandomizeMovement()
+{
+	randomize = 0;
+	srand(time(0));
+	randomize = rand() % 10;
+	return randomize;
+}
 std::string Inky::GetShape() {
 	return shape;
 }

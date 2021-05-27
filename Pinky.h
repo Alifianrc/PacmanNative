@@ -11,7 +11,7 @@ private:
 	Arena* arena;
 	int positionI;
 	int positionJ;
-
+	int randomize;
 	int speed;
 	bool MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT;
 	std::string shape;
@@ -23,7 +23,7 @@ public:
 	int GetPositionI();
 	int GetPositionJ();
 	void SetPosition(int i, int j);
-
+	int RandomizeMovement();
 	void Move(int i, int j);
 
 	std::string GetShape();
